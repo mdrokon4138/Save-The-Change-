@@ -11,13 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
 
 Route::get('/register-now', 'CustomRegisterController@index');
 Route::post('/user-registration', 'CustomRegisterController@register');
-
+Route::get('payment-option', 'StripePaymentController@stripe');
+Route::post('stripe', 'StripePaymentController@stripePost')->name('stripe.post');
+Route::post('update-user-info', 'HomeController@user_update');
+Route::get('active-account', 'HomeController@active_account');
 
 Route::get('/make', function () {
     $plan = app('rinvex.subscriptions.plan')->create([

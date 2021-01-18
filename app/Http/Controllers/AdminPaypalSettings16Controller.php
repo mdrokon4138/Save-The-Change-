@@ -5,18 +5,18 @@
 	use DB;
 	use CRUDBooster;
 
-	class AdminPlansController extends \crocodicstudio\crudbooster\controllers\CBController {
+	class AdminPaypalSettings16Controller extends \crocodicstudio\crudbooster\controllers\CBController {
 
 	    public function cbInit() {
 
 			# START CONFIGURATION DO NOT REMOVE THIS LINE
-			$this->title_field = "name";
+			$this->title_field = "id";
 			$this->limit = "20";
 			$this->orderby = "id,desc";
 			$this->global_privilege = false;
 			$this->button_table_action = true;
 			$this->button_bulk_action = true;
-			$this->button_action_style = "button_dropdown";
+			$this->button_action_style = "button_icon";
 			$this->button_add = true;
 			$this->button_edit = true;
 			$this->button_delete = true;
@@ -25,62 +25,25 @@
 			$this->button_filter = true;
 			$this->button_import = false;
 			$this->button_export = false;
-			$this->table = "plans";
+			$this->table = "paypal_settings";
 			# END CONFIGURATION DO NOT REMOVE THIS LINE
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
-			$this->col[] = ["label"=>"Slug","name"=>"slug"];
-			$this->col[] = ["label"=>"Name","name"=>"name"];
-			$this->col[] = ["label"=>"Description","name"=>"description"];
-			$this->col[] = ["label"=>"Is Active","name"=>"is_active"];
-			$this->col[] = ["label"=>"Price","name"=>"price"];
-			$this->col[] = ["label"=>"Package Value","name"=>"signup_fee"];
-			$this->col[] = ["label"=>"Currency","name"=>"currency"];
+			$this->col[] = ["label"=>"Client Id","name"=>"client_id"];
+			$this->col[] = ["label"=>"Client Secret","name"=>"client_secret"];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
-			$this->form[] = ['label'=>'Name','name'=>'name','type'=>'text','validation'=>'required|string|min:3|max:70','width'=>'col-sm-10','placeholder'=>'You can only enter the letter only'];
-			$this->form[] = ['label'=>'Slug','name'=>'slug','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Description','name'=>'description','type'=>'wysiwyg','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Is Active','name'=>'is_active','type'=>'hidden', 'value'=>'1', 'validation'=>'integer','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Price','name'=>'price','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Packge  Value','name'=>'signup_fee','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Currency','name'=>'currency','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Trial Period','name'=>'trial_period','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Trial Interval','name'=>'trial_interval','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Invoice Period','name'=>'invoice_period','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Invoice Interval','name'=>'invoice_interval','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Grace Period','name'=>'grace_period','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Grace Interval','name'=>'grace_interval','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Prorate Day','name'=>'prorate_day','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Prorate Period','name'=>'prorate_period','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Prorate Extend Due','name'=>'prorate_extend_due','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Active Subscribers Limit','name'=>'active_subscribers_limit','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Sort Order','name'=>'sort_order','type'=>'text','validation'=>'min:1|max:255','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Client Id','name'=>'client_id','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Client Secret','name'=>'client_secret','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
 			# END FORM DO NOT REMOVE THIS LINE
 
 			# OLD START FORM
 			//$this->form = [];
-			//$this->form[] = ['label'=>'Slug','name'=>'slug','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Name','name'=>'name','type'=>'text','validation'=>'required|string|min:3|max:70','width'=>'col-sm-10','placeholder'=>'You can only enter the letter only'];
-			//$this->form[] = ['label'=>'Description','name'=>'description','type'=>'wysiwyg','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Is Active','name'=>'is_active','type'=>'hidden', 'value'=>'1','validation'=>'required|integer','width'=>'col-sm-10','dataenum'=>'1'];
-			//$this->form[] = ['label'=>'Price','name'=>'price','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Signup Fee','name'=>'signup_fee','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Currency','name'=>'currency','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Trial Period','name'=>'trial_period','type'=>'date','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Trial Interval','name'=>'trial_interval','type'=>'number','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Invoice Period','name'=>'invoice_period','type'=>'number','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Invoice Interval','name'=>'invoice_interval','type'=>'number','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Grace Period','name'=>'grace_period','type'=>'number','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Grace Interval','name'=>'grace_interval','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Prorate Day','name'=>'prorate_day','type'=>'number','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Prorate Period','name'=>'prorate_period','type'=>'number','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Prorate Extend Due','name'=>'prorate_extend_due','type'=>'number','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Active Subscribers Limit','name'=>'active_subscribers_limit','type'=>'number','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			//$this->form[] = ['label'=>'Sort Order','name'=>'sort_order','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
+			//$this->form[] = ['label'=>'Client Id','name'=>'client_id','type'=>'select2','validation'=>'required|min:1|max:255','width'=>'col-sm-10','datatable'=>'client,id'];
+			//$this->form[] = ['label'=>'Client Secret','name'=>'client_secret','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
 			# OLD END FORM
 
 			/* 

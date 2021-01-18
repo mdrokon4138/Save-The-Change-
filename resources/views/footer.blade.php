@@ -1,5 +1,6 @@
 <link href="{{ asset('assets/css/footer.css') }}" rel="stylesheet">
-<footer class="footer-area footer--light">
+
+<footer class="footer-area footer--light" id="footer">
   <div class="footer-big">
     <!-- start .container -->
     <div class="container">

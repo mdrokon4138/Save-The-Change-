@@ -18,9 +18,8 @@
         <div class="row">
             <div class="col-md-3 register-left">
                 <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
-                <h3>Welcome</h3>
-                <p>You are 30 seconds away from earning your own money!</p>
-                <input type="submit" name="" value="Login"/><br/>
+                <p> Welcome to save the change" we are about to make your daily transaction life easy</p>
+                <a class="btn btn-warning" href="{{ url('/admin') }}">Login</a>
             </div>
             <div class="col-md-9 register-right">
                 
@@ -28,7 +27,6 @@
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <h3 class="register-heading">Quick Register </h3>
                         
-
                         <form method="POST" action="{{ url('user-registration') }}">
                           @csrf
                           <div class="row register-form">
@@ -43,19 +41,20 @@
                                       <input type="password" class="form-control" name="password" placeholder="Password *" value="" />
                                   </div>
                                   <div class="form-group">
-                                      <input type="password" class="form-control" name="confirm_password"  placeholder="Confirm Password *" value="" />
+                                      <input type="password" class="form-control" name="password_confirmation"  placeholder="Confirm Password *" value="" />
                                   </div>
                                   <div class="form-group">
+                                      @foreach ($previlage as $item)
+                                          
                                       <div class="maxl">
                                           <label class="radio inline"> 
-                                              <input type="radio" name="user_type" value="saver" checked>
-                                              <span> Saver </span> 
+                                              <input type="radio" name="user_type" value="{{ $item->id }}" checked>
+                                              <span> {{ $item->name }} </span> 
                                           </label>
-                                          <label class="radio inline"> 
-                                              <input type="radio" name="user_type" value="sender">
-                                              <span>Sender </span> 
-                                          </label>
+                                         
                                       </div>
+                                      @endforeach
+
                                   </div>
                               </div>
                               <div class="col-md-6">

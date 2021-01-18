@@ -5,12 +5,12 @@
 	use DB;
 	use CRUDBooster;
 
-	class AdminPlanFeaturesController extends \crocodicstudio\crudbooster\controllers\CBController {
+	class AdminStripeSettingsController extends \crocodicstudio\crudbooster\controllers\CBController {
 
 	    public function cbInit() {
 
 			# START CONFIGURATION DO NOT REMOVE THIS LINE
-			$this->title_field = "name";
+			$this->title_field = "id";
 			$this->limit = "20";
 			$this->orderby = "id,desc";
 			$this->global_privilege = false;
@@ -25,42 +25,25 @@
 			$this->button_filter = true;
 			$this->button_import = false;
 			$this->button_export = false;
-			$this->table = "plan_features";
+			$this->table = "stripe_settings";
 			# END CONFIGURATION DO NOT REMOVE THIS LINE
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
-			$this->col[] = ["label"=>"Plan Id","name"=>"plan_id","join"=>"plans,id"];
-			$this->col[] = ["label"=>"Slug","name"=>"slug"];
-			$this->col[] = ["label"=>"Name","name"=>"name"];
-			$this->col[] = ["label"=>"Description","name"=>"description"];
-			$this->col[] = ["label"=>"Value","name"=>"value"];
-			$this->col[] = ["label"=>"Resettable Period","name"=>"resettable_period"];
-			$this->col[] = ["label"=>"Resettable Interval","name"=>"resettable_interval"];
+			$this->col[] = ["label"=>"Secret Key","name"=>"secret_key"];
+			$this->col[] = ["label"=>"Publisher Key","name"=>"publisher_key"];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
-			$this->form[] = ['label'=>'Plan Id','name'=>'plan_id','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10','datatable'=>'plans,name'];
-			$this->form[] = ['label'=>'Slug','name'=>'slug','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Name','name'=>'name','type'=>'text','validation'=>'required|string|min:3|max:70','width'=>'col-sm-10','placeholder'=>'You can only enter the letter only'];
-			$this->form[] = ['label'=>'Description','name'=>'description','type'=>'wysiwyg','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Value','name'=>'value','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Resettable Period','name'=>'resettable_period','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Resettable Interval','name'=>'resettable_interval','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Sort Order','name'=>'sort_order','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Secret Key','name'=>'secret_key','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Publisher Key','name'=>'publisher_key','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
 			# END FORM DO NOT REMOVE THIS LINE
 
 			# OLD START FORM
 			//$this->form = [];
-			//$this->form[] = ["label"=>"Plan Id","name"=>"plan_id","type"=>"select2","required"=>TRUE,"validation"=>"required|integer|min:0","datatable"=>"plan,id"];
-			//$this->form[] = ["label"=>"Slug","name"=>"slug","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Name","name"=>"name","type"=>"text","required"=>TRUE,"validation"=>"required|string|min:3|max:70","placeholder"=>"You can only enter the letter only"];
-			//$this->form[] = ["label"=>"Description","name"=>"description","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Value","name"=>"value","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Resettable Period","name"=>"resettable_period","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Resettable Interval","name"=>"resettable_interval","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Sort Order","name"=>"sort_order","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+			//$this->form[] = ["label"=>"Secret Key","name"=>"secret_key","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+			//$this->form[] = ["label"=>"Publisher Key","name"=>"publisher_key","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
 			# OLD END FORM
 
 			/* 

@@ -14,7 +14,7 @@
 		<link href="images/ico/favicon.ico" rel="icon" type="image/x-icon">
 		
 		<!-- Site Title  -->
-		<title>Save The Money </title>
+		<title>Save The Money | Home </title>
 
 		<!-- Bootstrap core CSS -->
 		<link rel="stylesheet" href="{{ asset('assets/assets/css/bootstrap.css') }}" >
@@ -46,7 +46,10 @@
 						</div>
 						<div class="col-md-6 col-sm-6 text-right mobile-center">
 							<a href="#" class="button red">Support <img src="{{ asset('assets/images/support.png') }}" alt="" /> </a>
+							<a href="{{ url('/admin/login') }}" class="button blue">Login </a>
+						
 						</div>
+						
 					</div>
 				</div>
 				<div class="home-more-area">
@@ -58,7 +61,7 @@
 							<div class="home-right">
 								
 								<ul>
-									<li><a href="#" class="button orange more-feature">More Features</a></li>
+									<li><a href="#" class="button orange more-feature">Package List</a></li>
 									<li><a href="{{ url('register-now') }}" class="button blue">Get Started Now!</a></li>
 								</ul>
 							</div>
@@ -106,7 +109,7 @@
 			</div>
 		</div>
 		
-		<div class="more-features-area" id="more-feature">
+		<div class="more-features-area" id="more-feature 2">
 			<div class="container">
 				<div class="section-head">
 					<div class="row text-center">
@@ -138,14 +141,14 @@
 						<div class="single-more-features">
 							<img src="{{ asset('assets/images/features-icon/small/3.png') }}" alt="features" />
 							<h6>24/7 Support</h6>
-							<p>We are here 24/7/365 to assist you with any aspect of your hosting experience.</p>
+							<p>We are here 24/7/365 to assist you with any aspect of your Save The Change experience.</p>
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6">
 						<div class="single-more-features">
 							<img src="{{ asset('assets/images/features-icon/small/4.png') }}" alt="features" />
 							<h6>Advanced Storage</h6>
-							<p>Unlike other hosting companies, We lets you use solid-state drives to host all types of data.</p>
+							<p>Unlike other Save The Change companies, We lets you use solid-state drives to host all types of data.</p>
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6">
@@ -194,87 +197,42 @@
 			</div>
 		</div>
 		
-		<div class="pricing-area">
+		<div class="pricing-area" id="more-feature">
 			<div class="container">
 				<div class="section-head">
 					<div class="row text-center">
 						<div class="col-md-3"></div>
 						<div class="col-md-6">
-							<h3>Shared Hosting Plans</h3>
-							<p>When building a website, start here. Our shared service delivers a powerful, proven platform that's perfect for hosting your websites</p>
+							<h3>Shared Save The Change Plans</h3>
+							<p>When building a website, start here. Our shared service delivers a powerful, proven platform that's perfect for Save The Change your websites</p>
 						</div>
 						<div class="col-md-3"></div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-4 col-sm-6">
+					@foreach ($plans as $item)
+						
+					<div class="col-md-4 col-sm-6" style="width: 30%;">
 						<div class="single-pricing">
 							<div class="top-outer">
 								<div class="top red">
-									<img src="{{ asset('assets/images/icon.png') }}" style="height: 100px;" alt="plan" />
-									<h4>Standard</h4>
+									<img src="{{ asset('assets/images/icon.png') }}" style="height: 50px; width:50px;" alt="plan" />
+									<h6>{{ $item->name }}</h6>
 								</div>
 							</div>
 							<div class="bottom text-center red-color">
-								<h2><span>$</span>3.99 <small>/Month</small></h2>
+								<h2><span>₦</span>{{ round($item->signup_fee) }} <small>Package</small></h2>
 								<div class="price-line"></div>
 								<ul>
-									<li><strong>1GB</strong> Space</li>
-									<li><strong>256 MB</strong> Memory</li>
-									<li><strong>24/7</strong> Full Support</li>
-									<li><strong>Free</strong> Domain Name</li>
-									<li><strong>1 FTP</strong> Account</li>
+									<li><strong>{{ round($item->price) }}</strong>/₦ </li>
+									<li><strong>{!! $item->description !!}</strong></li>
 								</ul>
-								<a href="#" class="button black red">Start Now!</a>
+								<a href="{{ url('payment-option') }}" class="button black red">Start Now!</a>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4 col-sm-6">
-						<div class="single-pricing">
-							<div class="top-outer">
-								<div class="top dark-blue">
-									<img src="{{ asset('assets/images/icon.png') }}" style="height: 100px;" alt="plan" />
-									<h4>Premium</h4>
-								</div>
-							</div>
-							<div class="bottom text-center dark-blue-color">
-								<h2><span>$</span>5.99 <small>/Month</small></h2>
-								<div class="price-line"></div>
-								<ul>
-									<li><strong>1GB</strong> Space</li>
-									<li><strong>256 MB</strong> Memory</li>
-									<li><strong>24/7</strong> Full Support</li>
-									<li><strong>Free</strong> Domain Name</li>
-									<li><strong>1 FTP</strong> Account</li>
-								</ul>
-								<a href="#" class="button black dark-blue">Start Now!</a>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3"></div>
-					<div class="col-md-4 col-sm-6">
-						<div class="single-pricing">
-							<div class="top-outer">
-								<div class="top blue">
-									<img src="{{ asset('assets/images/icon.png') }}" style="height: 100px;" alt="plan" />
-									<h4>Unlimited</h4>
-								</div>
-							</div>
-							<div class="bottom text-center blue-color">
-								<h2><span>$</span>8.99 <small>/Month</small></h2>
-								<div class="price-line"></div>
-								<ul>
-									<li><strong>1GB</strong> Space</li>
-									<li><strong>256 MB</strong> Memory</li>
-									<li><strong>24/7</strong> Full Support</li>
-									<li><strong>Free</strong> Domain Name</li>
-									<li><strong>1 FTP</strong> Account</li>
-								</ul>
-								<a href="#" class="button black blue">Start Now!</a>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3"></div>
+					@endforeach
+
 				</div>
 			</div>
 		</div>
@@ -285,7 +243,7 @@
 					<div class="row text-center">
 						<div class="col-md-3"></div>
 						<div class="col-md-6">
-							<h3>What They Say About Save The Changeh3>
+							<h3>What They Say About Save The Change</h3>
 							<p>Read what our clients have to say. All testimonials are unsolicited, however some have been edited for clarity and/or length</p>
 						</div>
 						<div class="col-md-3"></div>
@@ -337,7 +295,7 @@
 								<div class="col-md-3"></div>
 								<div class="col-md-6">
 									<h3>Get Started Today!</h3>
-									<p>You may contact us for any kindly of query regarding web hosting or domain we will deal you and welcome you on priority.</p>
+									<p>You may contact us for any kindly of query regarding web Save The Change or domain we will deal you and welcome you on priority.</p>
 								</div>
 								<div class="col-md-2"></div>
 							</div>
@@ -346,7 +304,7 @@
 							<div class="col-md-2 col-sm-3"></div>
 							<div class="col-md-8 col-sm-6">
 								<div class="form">
-									<form action="http://demo.bestpixels.net/Save The Changetml/subscribe/sendmail.php" id="contactform" class="contact-form text-center" role="form">
+									<form action="#" id="contactform" class="contact-form text-center" role="form">
 										<!-- IF MAIL SENT SUCCESSFULLY -->
 										<h6 class="success">
 										<span class="olored-text icon_check"></span> Your message has been sent successfully.</h6>
@@ -383,20 +341,7 @@
 			</div>
 		</div>
 		
-		<div class="clients-area">
-			<div class="container">
-				<div class="row text-center">
-					<div class="col-md-12">
-						<ul>
-							<li><img src="{{ asset('assets/images/client/1.png') }}" alt="client" /></li>
-							<li><img src="{{ asset('assets/images/client/2.png') }}" alt="client" /></li>
-							<li><img src="{{ asset('assets/images/client/3.png') }}" alt="client" /></li>
-							<li><img src="{{ asset('assets/images/client/4.png') }}" alt="client" /></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 		
 		<div class="contact-info-area parallax">
 			<div class="container">
@@ -408,9 +353,9 @@
 						<p>Envato PO Box 21177 nLittle Lonsdale St, <br /> Melbourne nVictoria 8011 <br />  AustralianABN 11 119 159 741 </p>
 						<ul class="social-buttons">
 							<!-- Facebook -->
-							<li><iframe src="http://www.facebook.com/plugins/like.php?href=http://www.facebook.com/BestPixels&amp;layout=button_count&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;" ></iframe></li>
+							<li></li>
 							<!-- Twitter -->
-							<li><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a></li>
+							<li><a href="#" class="twitter-share-button">Tweet</a></li>
 						</ul>
 					</div>
 					<div class="col-md-4"></div>
@@ -451,11 +396,6 @@
 		================================================== -->
 		<script src="{{ asset('assets/js/custom.js') }}" type="text/javascript"></script>
 		
-		<!-- Tweet Script
-		================================================== -->
-		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 		
 	</body>
-
-<!-- Mirrored from demo.bestpixels.net/Save The Changetml/subscribe/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 16 Jan 2021 13:37:39 GMT -->
-</html>
+	</html>
