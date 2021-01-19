@@ -31,7 +31,7 @@
                     <div class="row display-tr" >
                         <h3 class="panel-title display-td" >Payment Details</h3>
                         <div class="display-td" >                            
-                            <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                            <img class="img-responsive pull-right" src="https://legendarykrakow.uk/wp-content/uploads/2018/09/Visa-MasterCard-in-Iran-.jpg">
                         </div>
                     </div>                    
                 </div>
@@ -105,7 +105,7 @@
              <div class="card">
                 <div class="card-body">
                    
-                    <div id="paypal-button"></div>
+                    
 
                 </div>
             </div>
@@ -174,40 +174,4 @@ $(function() {
 });
 </script>
 
-<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-    <script>
-      paypal.Button.render({
-        env: 'sandbox', // Or 'production'
-        style: {
-          size: 'large',
-          color: 'gold',
-          shape: 'pill',
-        },
-        // Set up the payment:
-        // 1. Add a payment callback
-        payment: function(data, actions) {
-          // 2. Make a request to your server
-          return actions.request.post('/api/create-payment')
-            .then(function(res) {
-              // 3. Return res.id from the response
-              // console.log(res);
-              return res.id;
-            });
-        },
-        // Execute the payment:
-        // 1. Add an onAuthorize callback
-        onAuthorize: function(data, actions) {
-          // 2. Make a request to your server
-          return actions.request.post('/api/execute-payment', {
-            paymentID: data.paymentID,
-            payerID:   data.payerID
-          })
-            .then(function(res) {
-              console.log(res);
-              alert('PAYMENT WENT THROUGH!!');
-              // 3. Show the buyer a confirmation message.
-            });
-        }
-      }, '#paypal-button');
-    </script>
 </html>
