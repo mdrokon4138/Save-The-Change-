@@ -19,6 +19,7 @@ Route::get('payment-option', 'StripePaymentController@stripe');
 Route::post('stripe', 'StripePaymentController@stripePost')->name('stripe.post');
 Route::post('update-user-info', 'HomeController@user_update');
 Route::get('active-account', 'HomeController@active_account');
+Route::get('get-subscription-list/', 'StripePaymentController@get_active_plan');
 
 Route::get('/make', function () {
     $plan = app('rinvex.subscriptions.plan')->create([

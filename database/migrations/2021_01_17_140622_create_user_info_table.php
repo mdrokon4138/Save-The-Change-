@@ -26,6 +26,8 @@ class CreateUserInfoTable extends Migration
             $table->string('account_type_2nd')->nullable();
             $table->string('saving_time')->nullable();
             $table->string('bonus')->nullable();
+            $table->string('referral')->nullable();
+            $table->string('secret_code')->nullable();
             $table->timestamps();
         });
     }

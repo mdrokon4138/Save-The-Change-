@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use DB;
 class CustomRegisterController extends Controller
@@ -22,11 +22,14 @@ class CustomRegisterController extends Controller
          'password' => 'required|min:3|confirmed',
          'password_confirmation' => 'required|min:3'
       ]);
+      $password = $request->password_confirmation; 
+      $hashed = Hash::make($password);
+
 
       $id= DB::table('cms_users')->insertGetId([
           'name'=> $request->first_name,
           'email'=> $request->email,
-          'password'=> md5($request->password),
+          'password'=> $hashed,
           'status'=> 'Active',
           'id_cms_privileges'=>$request->user_type
       ]);
@@ -36,7 +39,9 @@ class CustomRegisterController extends Controller
           'last_name'=> $request->last_name,
           'phone'=> $request->phone,
           'question_answer'=> $request->question_answer,
-          'security_questions'=>$request->security_questions
+          'security_questions'=>$request->security_questions,
+          'referral'=> uniqid(),
+          'secret_code'=> $id.'-' .uniqid(),
       ]);
       
         return redirect('register-now');

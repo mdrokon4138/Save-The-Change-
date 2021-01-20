@@ -196,47 +196,7 @@
 				</div>
 			</div>
 		</div>
-		
-		<div class="pricing-area" id="more-feature">
-			<div class="container">
-				<div class="section-head">
-					<div class="row text-center">
-						<div class="col-md-3"></div>
-						<div class="col-md-6">
-							<h3>Shared Save The Change Plans</h3>
-							<p>When building a website, start here. Our shared service delivers a powerful, proven platform that's perfect for Save The Change your websites</p>
-						</div>
-						<div class="col-md-3"></div>
-					</div>
-				</div>
-				<div class="row">
-					@foreach ($plans as $item)
-						
-					<div class="col-md-4 col-sm-6" style="width: 30%;">
-						<div class="single-pricing">
-							<div class="top-outer">
-								<div class="top red">
-									<img src="{{ asset('assets/images/icon.png') }}" style="height: 50px; width:50px;" alt="plan" />
-									<h6>{{ $item->name }}</h6>
-								</div>
-							</div>
-							<div class="bottom text-center red-color">
-								<h2><span>₦</span>{{ round($item->signup_fee) }} <small>Package</small></h2>
-								<div class="price-line"></div>
-								<ul>
-									<li><strong>{{ round($item->price) }}</strong>/₦ </li>
-									<li><strong>{!! $item->description !!}</strong></li>
-								</ul>
-								<a href="{{ url('payment-option') }}" class="button black red">Start Now!</a>
-							</div>
-						</div>
-					</div>
-					@endforeach
 
-				</div>
-			</div>
-		</div>
-		
 		<div class="testimonial-area">
 			<div class="container">
 				<div class="section-head">
