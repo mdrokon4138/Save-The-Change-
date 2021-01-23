@@ -3,13 +3,16 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.6/css/responsive.bootstrap.min.css">
 <div class="container" style="width: 100%;">
+<div class="col-md-12" style="background-color: white;">
+
 <div class="card">
 
-<div class="col-md-12" style="background-color: white;">
     @php
         $i = 1;
     @endphp
-<table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+<a class="btn btn-info pull-right" href="{{ url('active-account') }}">Subscribe Plan </a><br>
+<div class="clearfix"></div>
+<table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%; margin-top: 100px;">
         <thead>
             <tr>
                 <th>SL.No.</th>

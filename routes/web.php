@@ -20,6 +20,10 @@ Route::post('stripe', 'StripePaymentController@stripePost')->name('stripe.post')
 Route::post('update-user-info', 'HomeController@user_update');
 Route::get('active-account', 'HomeController@active_account');
 Route::get('get-subscription-list/', 'StripePaymentController@get_active_plan');
+Route::get('generate-codes/', 'CodeController@codes');
+Route::post('generate-code-now', 'CodeController@generate_code')->name('generate');
+Route::get('/codes/inactive/{id}', 'CodeController@inactive');
+Route::get('/codes/active/{id}', 'CodeController@active');
 
 Route::get('/make', function () {
     $plan = app('rinvex.subscriptions.plan')->create([
