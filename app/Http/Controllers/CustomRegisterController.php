@@ -24,7 +24,15 @@ class CustomRegisterController extends Controller
       ]);
       $password = $request->password_confirmation; 
       $hashed = Hash::make($password);
+      
+      $user = $request->user_type;
+    //   dd($user);
 
+      if($user == 2){
+          $type = 'BOA';
+      }else{
+          $type = 'RA';
+      }
 
       $id= DB::table('cms_users')->insertGetId([
           'name'=> $request->first_name,
@@ -33,7 +41,7 @@ class CustomRegisterController extends Controller
           'status'=> 'Active',
           'id_cms_privileges'=>$request->user_type
       ]);
-      DB::table('user_info')->insert([
+      $info = DB::table('user_info')->insertGetId([
           'user_id'=> $id,
           'first_name'=> $request->first_name,
           'last_name'=> $request->last_name,
@@ -42,8 +50,25 @@ class CustomRegisterController extends Controller
           'security_questions'=>$request->security_questions,
           'referral'=> uniqid(),
           'secret_code'=> $id.'-' .uniqid(),
+          'user_type' => $type,
+          'alt_phone' => $request->alt_phone,
       ]);
       
-        return redirect('register-now');
+        return redirect('setup-account/'.$info);
+    }
+
+    public function setup_account($id){
+        $info = DB::table('user_info')->where('id', $id)->first();
+        return view('setup_account', compact('info'));
+    }
+  
+    public function account_setup(Request $request){
+        // dd($request);
+        $info = DB::table('user_info')->where('id', $request->user_id)->update([
+            'account_type' => $request->account_type,
+            'account_type_2nd'=> $request->account_type,
+            'saving_time' => $request->saving_time,
+        ]);
+        return redirect('admin/login');
     }
 }

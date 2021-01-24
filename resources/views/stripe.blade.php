@@ -229,7 +229,7 @@
   
                         <div class="row">
                             <div class="col-xs-12">
-                                <button class="btn btn-primary btn-lg btn-block" type="submit">Pay With Card</button>
+                                <button class="btn btn-primary btn-lg btn-block" id="chck" type="submit">Pay With Card</button>
                             </div>
                         </div>
                           
@@ -310,6 +310,7 @@ $(function() {
   
 });
 });
+
 </script>
 
 <script>
@@ -323,5 +324,12 @@ function onlyOne(checkbox) {
     // alert(id);
     $('#id').val(id);
 }
+
+</script>
+
+<script>
+$('#chck').click(function () {
+    alert('dsf');
+});
 </script>
 @endif

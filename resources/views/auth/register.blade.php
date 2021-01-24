@@ -65,6 +65,9 @@
                                       <input type="text" minlength="10" maxlength="10" name="phone" class="form-control" placeholder="Your Phone *" value="" />
                                   </div>
                                   <div class="form-group">
+                                      <input type="text" minlength="10" maxlength="10" name="alt_phone" class="form-control" placeholder="Alternative Phone *" value="" />
+                                  </div>
+                                  <div class="form-group">
                                       <select class="form-control" name="security_questions">
                                           <option class="hidden"  selected disabled>Please select your Sequrity Question</option>
                                           <option>What is your Birthdate?</option>

@@ -28,6 +28,7 @@ class CreateUserInfoTable extends Migration
             $table->string('bonus')->nullable();
             $table->string('referral')->nullable();
             $table->string('secret_code')->nullable();
+            $table->string('alt_phone')->nullable();
             $table->timestamps();
         });
     }

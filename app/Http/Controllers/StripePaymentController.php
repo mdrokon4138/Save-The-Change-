@@ -30,6 +30,10 @@ class StripePaymentController extends Controller
      */
     public function stripePost(Request $request)
     {
+        $this->validate($request,[
+         'plans'=>'required',
+        ]);
+
         $user = CRUDBooster::myId();
         $name = CRUDBooster::myName();
         // dd($user);

@@ -24,18 +24,7 @@ Route::get('generate-codes/', 'CodeController@codes');
 Route::post('generate-code-now', 'CodeController@generate_code')->name('generate');
 Route::get('/codes/inactive/{id}', 'CodeController@inactive');
 Route::get('/codes/active/{id}', 'CodeController@active');
+Route::get('setup-account/{id}', 'CustomRegisterController@setup_account');
+Route::post('setup-account', 'CustomRegisterController@account_setup');
 
-Route::get('/make', function () {
-    $plan = app('rinvex.subscriptions.plan')->create([
-    'name' => 'Pro',
-    'description' => 'Pro plan',
-    'price' => 9.99,
-    'signup_fee' => 1.99,
-    'invoice_period' => 1,
-    'invoice_interval' => 'month',
-    'trial_period' => 15,
-    'trial_interval' => 'day',
-    'sort_order' => 1,
-    'currency' => 'USD',
-]);
-});
+

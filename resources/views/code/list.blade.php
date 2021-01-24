@@ -52,9 +52,11 @@
                 </div>
             </div>
             <div class="box-body">
+                @if($user_info->status != 0)
                 <div  class="col-md-6">
                     <a data-toggle="modal" data-target="#exampleModal" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i>{{ __(' Generate Code') }}</a>
                 </div>
+                @endif 
                 <div  class="col-md-6">
                     <input type="text" id="myInput" class="form-control" placeholder="{{ __('Search..') }}">
                 </div>
@@ -84,6 +86,7 @@
                                 <td>{{ $code->first_name }} {{ $code->last_name }}</td>
                                 <td>{{ $code->name }}</td>
                                 <td>{{ $code->am }}</td>
+
                                 @if($code->status == 0) 
                                 <td>
                                    <p class="text-warning">Inactive</p>
@@ -95,6 +98,7 @@
                                    <p class="text-success">Active</p>
                                 </td>
                                 @endif 
+                                
                                 <td>{{ date("d F Y", strtotime($code->created_at)) }}</td>
                                 <td class="text-center">
                                     @if($code->status == '1')
