@@ -78,6 +78,7 @@
                                   <div class="form-group">
                                       <input type="text" class="form-control" name="question_answer" placeholder="Enter Your Answer *" value="" />
                                   </div>
+                                  <input type="hidden" name="ref_code" value="{{$ref_code}}">
                                   <input type="submit" class="btnRegister"  value="Register"/>
 
                                   

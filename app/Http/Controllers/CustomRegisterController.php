@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use DB;
+use CRUDBooster;
+
 class CustomRegisterController extends Controller
 {
     public function index(Request $request){
@@ -48,10 +50,24 @@ class CustomRegisterController extends Controller
           'phone'=> $request->phone,
           'question_answer'=> $request->question_answer,
           'security_questions'=>$request->security_questions,
-          'referral'=> uniqid(),
+          'referral'=> $id.'-' .uniqid(),
           'secret_code'=> $id.'-' .uniqid(),
           'user_type' => $type,
           'alt_phone' => $request->alt_phone,
+      ]);
+
+      DB::table('referral_relationships')->insert([
+          'referral_link_id' => $request->ref_code,
+          'user_id' => $id
+      ]);
+
+      $user_in = DB::table('user_info')->where('referral', $request->ref_code)->first();
+      
+      DB::table('refferal_bonus')->insert([
+          'bonus' => 500,
+          'user_id' => $user_in->user_id,
+          'used'=> 0,
+          'created_at' => \Carbon\Carbon::now(),
       ]);
       
         return redirect('setup-account/'.$info);
@@ -70,5 +86,21 @@ class CustomRegisterController extends Controller
             'saving_time' => $request->saving_time,
         ]);
         return redirect('admin/login');
+    }
+
+    public function reg_refferal($id){
+
+        $previlage = DB::table('cms_privileges')->where('is_superadmin', 0)->get();
+        $ref_code = $id;
+        return view('auth.register', compact('previlage', 'ref_code'));
+
+    }
+
+    public function get_ref_link(Request $request){
+        $id = CRUDBooster::myId();
+        $user = DB::table('user_info')->where('user_id', $id)->first();
+        // $ref_code = $id;
+        return view('code.ref_link', compact('user'));
+
     }
 }

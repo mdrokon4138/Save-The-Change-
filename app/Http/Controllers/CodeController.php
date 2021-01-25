@@ -104,11 +104,6 @@ class CodeController extends Controller
         else{
             return back()->with('msg', 'Please buy a bundle to generate more codes.');
         }
-
-        
-
-        
-
         return back()->with('msg', 'Code generated.');
     }
 
@@ -123,5 +118,61 @@ class CodeController extends Controller
             'status' => 1,
         ]);
         return back()->with('msg', 'Code Activated.');
+    }
+
+
+    public function use_code(Request $request){
+        return view('code.use_code');
+    }
+
+    public function used_code(Request $request){
+        // dd($request);
+        $this->validate($request,[
+         'code'=>'required',
+         'secret'=>'required'
+        ]);
+
+        $data = DB::table('used_codes')->where('code', $request->code)->first();
+       
+        if ($data) {
+            return back()->with('warning', 'Code already used.');
+        }else{
+            $exist = DB::table('codes')->where('codes', $request->code)->first();
+            $used = DB::table('generated_codes')->where('user_id', CRUDBooster::myId())->first();
+            $total = $used->used_code + $exist->amount;
+            if($exist) {
+                if ($total <= $used->generated_code) {
+
+                    $user_exist = DB::table('user_info')->where('secret_code', $request->secret)->first();
+                    $rec_user = DB::table('generated_codes')->where('user_id', $user_exist->user_id)->first();
+
+                    if ($user_exist && $rec_user) {
+                        
+                        $total_bal = $rec_user->code_balance + $exist->amount;
+                        DB::table('generated_codes')->where('user_id', $user_exist->user_id)->update([
+                        'code_balance'=> $total_bal,
+                        ]);
+
+                        DB::table('generated_codes')->where('user_id', CRUDBooster::myId())->update([
+                            'used_code'=> $total,
+                        ]);
+
+                        DB::table('used_codes')->insert([
+                            'code' => $request->code,
+                            'receiver_code' => $request->secret,
+                            'created_at' => \Carbon\Carbon::now(),
+                        ]);
+                    }else{
+                        return back()->with('warning', 'User does not exist or not active..');
+                    }
+                    
+                }else{
+                   return back()->with('warning', 'You already used all generated code.');
+                }
+            }else{
+                return back()->with('warning', 'This code is not valid.');
+            }
+        }
+        return back()->with('status', 'Transaction successfull.');
     }
 }

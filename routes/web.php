@@ -26,5 +26,9 @@ Route::get('/codes/inactive/{id}', 'CodeController@inactive');
 Route::get('/codes/active/{id}', 'CodeController@active');
 Route::get('setup-account/{id}', 'CustomRegisterController@setup_account');
 Route::post('setup-account', 'CustomRegisterController@account_setup');
+Route::get('use-codes', 'CodeController@use_code');
+Route::post('used-code', 'CodeController@used_code');
+Route::get('/register-ref={id}', 'CustomRegisterController@reg_refferal');
+Route::get('/get-refferal-link', 'CustomRegisterController@get_ref_link');
 
 

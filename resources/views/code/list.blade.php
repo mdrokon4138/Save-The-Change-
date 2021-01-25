@@ -77,7 +77,7 @@
                                 <th class="text-center">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
-                        <tbody id="myTable">
+                        <tbody>
                             @php ($sl = 1)
                             @foreach($codes as $code)
                             <tr>
@@ -106,21 +106,42 @@
                                     @else 
                                     <a onclick="return confirm('Are you sure you want to active this item?');"  href="{{ url('/codes/active/' . $code->cid) }}"><i class="icon fa fa-check text-danger"></i> {{ __('Active') }}</a>
                                     @endif 
+                                    
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    <a   onclick="printDiv('printMe')" class="btn btn-info" href="http://">Print </a>
                 </div>
             </div>
             <!-- /.box-body -->
         </div>
         <!-- /.box -->
+        <div style="display: none;"  id="printMe">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($codes as $code)
+                    <tr>
+                       <td>{{ $code->code }}</td>
+                       <td>{{ $code->am }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </section>
     <script src="https://code.jquery.com/jquery-3.5.1.js">
     
 </script>
 <script>
+
 $(document).ready(function(){
     $("#myInput").on("keyup", function() {
     var value = $(this).val().toLowerCase();
@@ -130,14 +151,17 @@ $(document).ready(function(){
     });
 });
 </script>
-<script type="text/javascript">
-    function printDiv(printable_area) {
-     var printContents = document.getElementById(printable_area).innerHTML;
-     var originalContents = document.body.innerHTML;
-     document.body.innerHTML = printContents;
-     window.print();
-     document.body.innerHTML = originalContents;
- }
-</script>
+<script>
+		function printDiv(divName){
+			var printContents = document.getElementById(divName).innerHTML;
+			// var originalContents = document.body.innerHTML;
 
+			document.body.innerHTML = printContents;
+
+			window.print();
+
+			// document.body.innerHTML = originalContents;
+
+		}
+	</script>
 @endsection
