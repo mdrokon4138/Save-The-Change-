@@ -30,5 +30,6 @@ Route::get('use-codes', 'CodeController@use_code');
 Route::post('used-code', 'CodeController@used_code');
 Route::get('/register-ref={id}', 'CustomRegisterController@reg_refferal');
 Route::get('/get-refferal-link', 'CustomRegisterController@get_ref_link');
-
+Route::get('bonus-balance', 'CodeController@bonus');
+Route::post('bonus-code-generate', 'CodeController@generate_bonus_code');
 

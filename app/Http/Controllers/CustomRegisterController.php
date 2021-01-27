@@ -62,13 +62,39 @@ class CustomRegisterController extends Controller
       ]);
 
       $user_in = DB::table('user_info')->where('referral', $request->ref_code)->first();
+      $user_active_check = DB::table('subscriptions')->where('deletion_status', 0)->where('user_id', $user_in->user_id)->first();
       
-      DB::table('refferal_bonus')->insert([
-          'bonus' => 500,
-          'user_id' => $user_in->user_id,
-          'used'=> 0,
-          'created_at' => \Carbon\Carbon::now(),
-      ]);
+      $bonus = DB::table('refferal_bonus')->where('user_id', $user_in->user_id)->first();
+      if ($bonus) {
+        DB::table('refferal_bonus')->where('user_id', $user_in->user_id)->update([
+            'bonus' => 500 + $bonus->bonus,
+           
+        ]);
+      }else {
+        DB::table('refferal_bonus')->insert([
+            'bonus' => 500,
+            'user_id' => $user_in->user_id,
+            'used'=> 0,
+            'created_at' => \Carbon\Carbon::now(),
+        ]);
+      }
+      
+        $gen_code = DB::table('generated_codes')->where('user_id',$user_in->user_id)->first();
+        if($user_active_check && $gen_code){
+          $tot = $gen_code->code_balance + 500;
+            DB::table('generated_codes')->where('user_id',$user_in->user_id )->update(
+                [
+                  'code_balance'=> $tot 
+                ]
+            );
+        }else {
+            DB::table('generated_codes')->insert([
+                'user_id' => $user_in->user_id,
+                'code_balance' => 500,
+                'used_code' => '0',
+                'generated_code'=> '0'
+            ]);
+        }
       
         return redirect('setup-account/'.$info);
     }

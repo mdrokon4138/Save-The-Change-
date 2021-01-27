@@ -326,10 +326,4 @@ function onlyOne(checkbox) {
 }
 
 </script>
-
-<script>
-$('#chck').click(function () {
-    alert('dsf');
-});
-</script>
 @endif
