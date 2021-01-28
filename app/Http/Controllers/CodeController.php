@@ -199,8 +199,11 @@ class CodeController extends Controller
             # code...
             $daily = DB::table('daily_limits')->where('user_id', CRUDBooster::myId())
             ->whereDate('created_at', \Carbon\Carbon::today())->get()->sum('amount');
+
             $data = DB::table('generated_codes')->where('user_id', CRUDBooster::myId())->first();
-            $bonus = DB::table('refferal_bonus')->where('user_id', $user_in->user_id)->first();
+            $bonus = DB::table('refferal_bonus')->where('user_id', CRUDBooster::myId())->first();
+            // dd($bonus);
+
             $chck = DB::table('subscriptions')
             ->join('plans', 'plans.id', '=', 'subscriptions.stripe_plan')
             ->where('subscriptions.user_id', CRUDBooster::myId())
@@ -263,12 +266,37 @@ class CodeController extends Controller
                 return back()->with('msg', 'Code Generated successfull.');
             }else {
                 # code...
-                return back()->with('warning', 'You have reached your daily limits.');
+                return back()->with('warning', 'You have reach your daily spending limit');
             }
 
         }else {
             # code...
             return back()->with('warning', 'You dont have any active plan.');
         }
+    }
+
+    public function user_bonus(Request $request){
+        $users = DB::table('user_info')->where('user_type', 'BOA')->where('status', 1)->get();
+        // dd($users);
+        return view('user.bonus', compact('users'));
+    }
+
+    public function sent_user_bonus(Request $request){
+
+        // dd($request);
+         $this->validate($request,[
+         'bonus'=>'required',
+        ]);
+
+
+        for ($i = 0; $i < count($request->users); $i++) {
+            $old = DB::table('generated_codes')->where('user_id',$request->users[$i])->first();
+
+                DB::table('generated_codes')->where('user_id',$request->users[$i])
+                ->update([
+                    'code_balance' => $request->bonus_amount + $old->code_balance,
+                ]);
+            }
+        return back()->with('msg', 'Bonus sent to users.');
     }
 }

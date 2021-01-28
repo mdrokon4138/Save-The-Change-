@@ -12,7 +12,6 @@
 */
 
 Route::get('/', 'HomeController@index');
-
 Route::get('/register-now', 'CustomRegisterController@index');
 Route::post('/user-registration', 'CustomRegisterController@register');
 Route::get('payment-option', 'StripePaymentController@stripe');
@@ -32,4 +31,6 @@ Route::get('/register-ref={id}', 'CustomRegisterController@reg_refferal');
 Route::get('/get-refferal-link', 'CustomRegisterController@get_ref_link');
 Route::get('bonus-balance', 'CodeController@bonus');
 Route::post('bonus-code-generate', 'CodeController@generate_bonus_code');
+Route::get('sent-users-bonus', 'CodeController@user_bonus');
+Route::post('sent-bonus', 'CodeController@sent_user_bonus');
 
