@@ -74,12 +74,9 @@
                             <tr>
                                 <th>{{ __('SL#') }}</th>
                                 <th>{{ __('Codes') }}</th>
-                                <th>{{ __('Created By') }}</th>
-                                <th>{{ __('Plan Name') }}</th>
                                 <th>{{ __('Amount') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Created At') }}</th>
-                                <th class="text-center">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,8 +85,6 @@
                             <tr>
                                 <td>{{ $sl++ }}</td>
                                 <td>{{ $code->code }}</td>
-                                <td>{{ $code->first_name }} {{ $code->last_name }}</td>
-                                <td>{{ $code->name }}</td>
                                 <td>{{ $code->am }}</td>
 
                                 @if($code->status == 0) 
@@ -105,14 +100,7 @@
                                 @endif 
                                 
                                 <td>{{ date("d F Y", strtotime($code->created_at)) }}</td>
-                                <td class="text-center">
-                                    @if($code->status == '1')
-                                    <a onclick="return confirm('Are you sure you want to inactive this item?');"  href="{{ url('/codes/inactive/' . $code->cid) }}"><i class="icon fa fa-undo text-danger"></i> {{ __('InActive') }}</a>
-                                    @else 
-                                    <a onclick="return confirm('Are you sure you want to active this item?');"  href="{{ url('/codes/active/' . $code->cid) }}"><i class="icon fa fa-check text-danger"></i> {{ __('Active') }}</a>
-                                    @endif 
-                                    
-                                </td>
+                               
                             </tr>
                             @endforeach
                         </tbody>

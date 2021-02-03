@@ -33,6 +33,8 @@ class CodeController extends Controller
 
     public function generate_code(Request $request){
 
+        // dd($request);
+
         $chck = DB::table('subscriptions')
         ->join('plans', 'plans.id', '=', 'subscriptions.stripe_plan')
         ->where('subscriptions.user_id', CRUDBooster::myId())
@@ -111,7 +113,7 @@ class CodeController extends Controller
            return back()->with('msg', 'You dont have any active plan. ');
         }
 
-        return back()->with('msg', 'Code generated.');
+        return back()->with('status', 'Code generated.');
     }
 
     public function inactive($id){
@@ -130,6 +132,10 @@ class CodeController extends Controller
 
     public function use_code(Request $request){
         return view('code.use_code');
+    }
+
+    public function send_change(Request $request){
+        return view('code.change_send');
     }
 
     public function used_code(Request $request){
