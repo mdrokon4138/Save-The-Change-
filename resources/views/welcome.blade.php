@@ -324,13 +324,7 @@
 		</div>
 		
 		<div class="footer-bar">
-			<div class="container">
-				<div class="row text-center">
-					<div class="col-md-12">
-						<p>All rights reserved Copyright © 2015 Save The Changey <a href="#">BestPixels</a> & <a href="#">Codeliono</a></p>
-					</div>
-				</div>
-			</div>
+			@include('footer')
 		</div>
 		
 		<!-- Bootstrap core JavaScript

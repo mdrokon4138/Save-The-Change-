@@ -44,11 +44,12 @@
                                       <input type="password" class="form-control" name="password_confirmation"  placeholder="Confirm Password *" value="" />
                                   </div>
                                   <div class="form-group">
+                                    <label for="">Choose User Type</label>
                                       @foreach ($previlage as $item)
                                           
                                       <div class="maxl">
                                           <label class="radio inline"> 
-                                              <input type="radio" name="user_type" value="{{ $item->id }}" checked>
+                                              <input type="radio" name="user_type" value="{{ $item->id }}">
                                               <span> {{ $item->name }} </span> 
                                           </label>
                                          

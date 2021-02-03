@@ -14,7 +14,8 @@ class CodeController extends Controller
         ->join('plans', 'plans.id', '=', 'codes.plan_id')
         ->join('user_info', 'user_info.user_id', '=', 'codes.user_id')
         ->select('codes.id as cid', 'plans.*', 'user_info.*', 'codes.codes as code', 'codes.amount as am', 'codes.status as status')
-        ->where('codes.user_id', CRUDBooster::myId())->get();
+        ->where('codes.user_id', CRUDBooster::myId())
+        ->get();
 
         $userId = CRUDBooster::myId();
         $plan = DB::table('subscriptions')
@@ -152,15 +153,29 @@ class CodeController extends Controller
                     $user_exist = DB::table('user_info')->where('secret_code', $request->secret)->first();
                     $rec_user = DB::table('generated_codes')->where('user_id', $user_exist->user_id)->first();
 
-                    if ($user_exist && $rec_user) {
+                    if ($user_exist && $user_exist->status == 1) {
                         
                         $total_bal = $rec_user->code_balance + $exist->amount;
-                        DB::table('generated_codes')->where('user_id', $user_exist->user_id)->update([
-                        'code_balance'=> $total_bal,
-                        ]);
+                        
 
                         DB::table('generated_codes')->where('user_id', CRUDBooster::myId())->update([
                             'used_code'=> $total,
+                        ]);
+
+                        DB::table('generated_codes')->insert([
+                            'code_balance'=> $total_bal,
+                            'user_id' => $user_exist->user_id
+                        ]);
+
+                        $code_ex = DB::table('codes')->where('codes', $request->code)->first();
+                        
+                        DB::table('codes')->insert([
+                            'codes'=> $request->code,
+                            'user_id' => $user_exist->user_id,
+                            'plan_id' => $code_ex->plan_id,
+                            'status' => 1,
+                            'created_at' => \Carbon\Carbon::now(),
+                            'amount' =>$code_ex->amount,
                         ]);
 
                         DB::table('used_codes')->insert([
@@ -168,6 +183,9 @@ class CodeController extends Controller
                             'receiver_code' => $request->secret,
                             'created_at' => \Carbon\Carbon::now(),
                         ]);
+
+                        // dd();
+
                     }else{
                         return back()->with('warning', 'User does not exist or not active..');
                     }
@@ -298,5 +316,110 @@ class CodeController extends Controller
                 ]);
             }
         return back()->with('msg', 'Bonus sent to users.');
+    }
+
+    public function subscription(Request $request){
+        $plan = DB::table('plans')->where('id', $request->plan_id)->first();
+        $balance = DB::table('main_balances')->where('user_id', CRUDBooster::myId())->get()->sum('balance');
+
+        // dd($balance);
+
+        if ($balance >=  $plan->price) {
+            $data = DB::table('subscriptions')->insert([
+            'user_id'=>  CRUDBooster::myId(),
+            'name'=> $plan->name,
+            'stripe_id'=> $request->plan_id,
+            'stripe_status'=> 1,
+            'stripe_plan'=> $request->plan_id,
+            'quantity'=> 1,
+            'trial_ends_at'=> \Carbon\Carbon::now(),
+            'ends_at'=> \Carbon\Carbon::now(),
+            'updated_at'=> \Carbon\Carbon::now(),
+        ]);
+
+
+        $balance = DB::table('main_balances')
+        ->where('user_id', CRUDBooster::myId())
+        ->where('balance', '>=', $plan->price)->first();
+
+        $total = $balance->balance - $plan->price;
+
+        DB::table('main_balances')
+        ->where('user_id', CRUDBooster::myId())
+        ->where('balance', '>=', $plan->price)
+        ->update( 
+            [
+                'balance' => $total
+            ]
+        );
+
+        }else {
+            return back()->with('warning', 'You don\'t have sufficient balance to subscribe this plan.');
+        }
+
+        
+
+        return back()->with('msg', 'Thanks for subscribing '. $plan->name);
+    }
+
+    public function faq_page(Request $request){
+        $page = DB::table('faqs')->first();
+
+        return view('faq_add', compact('page'));
+    }
+
+
+    public function send_money(Request $request){
+
+        return view('code.money');
+    }
+   
+    public function bonus_send_money(Request $request){
+
+        return view('code.bouns_money');
+    }
+    
+    public function sent_money(Request $request){
+        $this->validate($request,[
+         'amount'=>'required',
+         'secret'=>'required'
+        ]);
+
+        $exist = DB::table('user_info')->where('secret_code', $request->secret)->first();
+        $prev_balance = DB::table('main_balances')->where('user_id', $exist->user_id)->first();
+        $user_balance = DB::table('main_balances')->where('user_id', CRUDBooster::myId())->first();
+
+        $update = $prev_balance->balance + $request->amount;
+
+        $minus = $user_balance->balance - $request->amount;
+
+        if($exist){
+
+            if ($user_balance->balance > $request->amount) {
+                DB::table('main_balances')->where('user_id', $exist->user_id)->update([
+                'balance'=> $update
+                ]);
+                
+                DB::table('main_balances')->where('user_id', CRUDBooster::myId())->update([
+                'balance'=> $minus
+                ]);
+                
+                DB::table('transactions')->insert([
+                'amount'=> $request->amount,
+                'sender_id'=> CRUDBooster::myId(),
+                'receiver_id'=> $exist->user_id,
+                'updated_at'=> \Carbon\Carbon::now(),
+                ]);
+
+                return back()->with('status', 'Fund transfer successfull.');
+            }else {
+               return back()->with('warning', 'You don\'t have sufficient balance');
+            }
+            
+        }else {
+            return back()->with('warning', 'Receiver User does not exist.');
+        }
+
+        // dd($exist);
     }
 }

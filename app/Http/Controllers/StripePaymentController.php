@@ -9,6 +9,8 @@ use DB;
 use CRUDBooster;
 use Carbon\Carbon;
 use App\Subscription;
+use Paystack;
+use Illuminate\Support\Facades\Redirect;
 
 class StripePaymentController extends Controller
 {
@@ -38,7 +40,7 @@ class StripePaymentController extends Controller
 
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         Stripe\Charge::create ([
-                "amount" => 100 * 100,
+                "amount" => $request->deposit_amount * 100,
                 "currency" => "usd",
                 "source" => $request->stripeToken,
                 "description" => "Save the Change" 
@@ -46,24 +48,29 @@ class StripePaymentController extends Controller
         $user = CRUDBooster::myId();
         $name = CRUDBooster::myName();
 
-        $data = DB::table('subscriptions')->insert([
+        $chk = DB::table('main_balances')->where('user_id', $user)->first();
+
+        if ($chk) {
+            $total = $chk->balance + $request->deposit_amount;
+            $balance = DB::table('main_balances')->where('user_id', $user)->update([
+            'balance'=> $total,
+            ]);
+        }else {
+            $balance = DB::table('main_balances')->insert([
             'user_id'=>  $user,
-            'name'=> $name,
-            'stripe_id'=> 1,
-            'stripe_status'=> 1,
-            'stripe_plan'=> $request->id,
-            'quantity'=> 1,
-            'trial_ends_at'=> Carbon::now(),
-            'ends_at'=> Carbon::now(),
-            'updated_at'=> Carbon::now(),
-        ]);
+            'balance'=> $request->deposit_amount,
+            'created_at'=> Carbon::now(),
+            ]);
+        }
+
+        
         $data = DB::table('user_info')->where('user_id', $user)->update([
             'status'=>  1,
             'updated_at'=> Carbon::now(),
            
         ]);
   
-        Session::flash('success', 'Payment successful!');
+        Session::flash('success', 'Welcome your account is now active..!');
           
         return back();
     }
@@ -81,5 +88,62 @@ class StripePaymentController extends Controller
         ->get();
         // dd($user_plan);
         return view('user.active_plan', compact('user_plan'));
+    }
+
+    public function redirectToGateway()
+    {
+        try{
+            return Paystack::getAuthorizationUrl()->redirectNow();
+        }catch(\Exception $e) {
+            return Redirect::back()->withMessage(['msg'=>'The paystack token has expired. Please refresh the page and try again.', 'type'=>'error']);
+        }        
+    }
+
+    /**
+     * Obtain Paystack payment information
+     * @return void
+     */
+    public function handleGatewayCallback()
+    {
+        $paymentDetails = Paystack::getPaymentData();
+
+        $amount = $paymentDetails['data']['amount'];
+        $user = CRUDBooster::myId();
+
+        $chk = DB::table('main_balances')->where('user_id', $user)->first();
+
+        $de = $amount / 100 ;
+
+        // dd($de);
+
+        $depo = $chk->balance + $de;
+
+        if ($chk) {
+            $balance = DB::table('main_balances')->where('user_id', $user)->update([
+            'balance'=> $depo,
+            ]);
+        }else {
+            # code...
+            $balance = DB::table('main_balances')->insert([
+            'balance'=> $depo,
+            'user_id'=>$user,
+            'created_at'=> Carbon::now(),
+            ]);
+        }
+
+        $data = DB::table('user_info')->where('user_id', $user)->update([
+            'status'=>  1,
+            'updated_at'=> Carbon::now(),
+           
+        ]);
+
+        Session::flash('success', 'Deposit successful!');
+          
+        return back();
+
+        // dd($paymentDetails);
+        // Now you have the payment details,
+        // you can store the authorization_code in your db to allow for recurrent subscriptions
+        // you can then redirect or do whatever you want
     }
 }

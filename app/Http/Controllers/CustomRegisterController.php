@@ -43,6 +43,11 @@ class CustomRegisterController extends Controller
           'status'=> 'Active',
           'id_cms_privileges'=>$request->user_type
       ]);
+
+      $rand = $id.'-'.substr(uniqid('', true), -6);
+
+    //   dd($rand);
+
       $info = DB::table('user_info')->insertGetId([
           'user_id'=> $id,
           'first_name'=> $request->first_name,
@@ -51,50 +56,66 @@ class CustomRegisterController extends Controller
           'question_answer'=> $request->question_answer,
           'security_questions'=>$request->security_questions,
           'referral'=> $id.'-' .uniqid(),
-          'secret_code'=> $id.'-' .uniqid(),
+          'secret_code'=> $rand,
           'user_type' => $type,
           'alt_phone' => $request->alt_phone,
       ]);
 
-      DB::table('referral_relationships')->insert([
+        if ($request->ref_code) {
+          # code...
+           DB::table('referral_relationships')->insert([
           'referral_link_id' => $request->ref_code,
           'user_id' => $id
-      ]);
+        ]);
+
+        $user_in= DB::table('user_info')->where('referral', $request->ref_code)->first();
+        // dd($user_in);
+
+        $bonus = DB::table('refferal_bonus')->where('user_id', $user_in->user_id)->first();
+
+        if ($bonus) {
+            DB::table('refferal_bonus')->where('user_id', $user_in->user_id)->update([
+                'bonus' => 500 + $bonus->bonus,
+            
+            ]);
+        }else {
+            DB::table('refferal_bonus')->insert([
+                'bonus' => 500,
+                'user_id' => $user_in->user_id,
+                'used'=> 0,
+                'created_at' => \Carbon\Carbon::now(),
+            ]);
+            DB::table('refferal_bonus')->insert([
+                'bonus' => 500,
+                'user_id' => $id,
+                'used'=> 0,
+                'created_at' => \Carbon\Carbon::now(),
+            ]);
+        }
+      
+    }
+
+     
 
       $user_in = DB::table('user_info')->where('referral', $request->ref_code)->first();
       $user_active_check = DB::table('subscriptions')->where('deletion_status', 0)->where('user_id', $user_in->user_id)->first();
       
-      $bonus = DB::table('refferal_bonus')->where('user_id', $user_in->user_id)->first();
-      if ($bonus) {
-        DB::table('refferal_bonus')->where('user_id', $user_in->user_id)->update([
-            'bonus' => 500 + $bonus->bonus,
-           
-        ]);
-      }else {
-        DB::table('refferal_bonus')->insert([
-            'bonus' => 500,
-            'user_id' => $user_in->user_id,
-            'used'=> 0,
-            'created_at' => \Carbon\Carbon::now(),
-        ]);
-      }
-      
-        $gen_code = DB::table('generated_codes')->where('user_id',$user_in->user_id)->first();
-        if($user_active_check && $gen_code){
-          $tot = $gen_code->code_balance + 500;
-            DB::table('generated_codes')->where('user_id',$user_in->user_id )->update(
-                [
-                  'code_balance'=> $tot 
-                ]
-            );
-        }else {
-            DB::table('generated_codes')->insert([
-                'user_id' => $user_in->user_id,
-                'code_balance' => 500,
-                'used_code' => '0',
-                'generated_code'=> '0'
-            ]);
-        }
+        // $gen_code = DB::table('generated_codes')->where('user_id',$user_in->user_id)->first();
+        // if($user_active_check && $gen_code){
+        //   $tot = $gen_code->code_balance + 500;
+        //     DB::table('generated_codes')->where('user_id',$user_in->user_id )->update(
+        //         [
+        //           'code_balance'=> $tot 
+        //         ]
+        //     );
+        // }else {
+        //     DB::table('generated_codes')->insert([
+        //         'user_id' => $user_in->user_id,
+        //         'code_balance' => 500,
+        //         'used_code' => '0',
+        //         'generated_code'=> '0'
+        //     ]);
+        // }
       
         return redirect('setup-account/'.$info);
     }

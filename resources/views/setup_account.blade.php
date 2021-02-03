@@ -26,19 +26,22 @@
     <table class="table" style="border: 1px solid black;">
         <thead>
             <tr>
-                <th style="padding-left: 50px;"> 
+                <th style="padding-left: 50px; width: 50%;"> 
                     <input class="form-check-input" name="account_type" type="checkbox" id="inlineCheckbox1" value="SVA" />
-                    <label style="padding-left: 20px;" class="form-check-label" for="inlineCheckbox1"> Saver Account (SVA)</label>
+                    <label style="padding-left: 20px;" class="form-check-label" for="inlineCheckbox1"> Saver Account (SVA)</label><br>
+                    <span>A SVA is an account that want to save all the change collected from BOA for a specific period of time before they can withdraw it</span>
                 </th>
                 <th style="padding-left: 20px;">
                     <input class="form-check-input" name="account_type" type="checkbox" id="inlineCheckbox2" value="SPA" />
                     <label style="padding-left: 20px;" class="form-check-label" for="inlineCheckbox2"> Spender Account (SPA) </label>
+                    <br>
+                    <span>A SPA is an account that want to be able to spend his change at any point in time</span>
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
+            <tr >
+                <td style="padding-left: 50px;">
                     <label style="width: 100px;" for=""> 6 months</label>
                     <input  class="form-check-input" type="radio" name="saving_time" value="6 months"><br>
                     <label style="width: 100px;" for=""> 1 year</label>

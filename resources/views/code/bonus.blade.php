@@ -49,7 +49,7 @@
         @endif
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">{{ __('Bonus Balance') }} ({{$bonus->bonus}})</h3>
+                {{-- <h3 class="box-title">{{ __('Bonus Balance') }} ({{$bonus->bonus}})</h3> --}}
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
@@ -59,7 +59,7 @@
             <div class="box-body">
                 @if($user_info->status != 0)
                 <div  class="col-md-6">
-                    <a data-toggle="modal" data-target="#exampleModal" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i>{{ __(' Generate Code') }}</a>
+                    {{-- <a data-toggle="modal" data-target="#exampleModal" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i>{{ __(' Generate Code') }}</a> --}}
                 </div>
                 @endif 
                 <div  class="col-md-6">

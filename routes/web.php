@@ -33,4 +33,15 @@ Route::get('bonus-balance', 'CodeController@bonus');
 Route::post('bonus-code-generate', 'CodeController@generate_bonus_code');
 Route::get('sent-users-bonus', 'CodeController@user_bonus');
 Route::post('sent-bonus', 'CodeController@sent_user_bonus');
+Route::get('deposit', 'MainBalanceController@deposit');
+Route::post('subscription','CodeController@subscription');
+Route::get('withdraw-money','MainBalanceController@withdraw');
+Route::post('users-withdraw-request', 'MainBalanceController@withdraw_now');
+Route::post('/pay', 'StripePaymentController@redirectToGateway')->name('pay');
+Route::get('/payment/callback', 'StripePaymentController@handleGatewayCallback');
+Route::get('faq-page', 'CodeController@faq_page');
+Route::get('send-money', 'CodeController@send_money');
+Route::get('send-bonus-money', 'CodeController@bonus_send_money');
+Route::post('send-money', 'CodeController@sent_money');
+Route::post('send-bonus-money', 'TransactionController@bonus_sent_money');
 

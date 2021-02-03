@@ -28,22 +28,22 @@
         <div class="col-md-3 col-sm-4">
           <div class="footer-widget">
             <div class="footer-menu footer-menu--1">
-              <h4 class="footer-widget-title">Popular Category</h4>
+              <h4 class="footer-widget-title"></h4>
               <ul>
                 <li>
-                  <a href="#">Wordpress</a>
+                  <a href="#"></a>
                 </li>
                 <li>
-                  <a href="#">Plugins</a>
+                  <a href="#"></a>
                 </li>
                 <li>
-                  <a href="#">Joomla Template</a>
+                  <a href="#"></a>
                 </li>
                 <li>
-                  <a href="#">Admin Template</a>
+                  <a href="#"></a>
                 </li>
                 <li>
-                  <a href="#">HTML Template</a>
+                  <a href="#"></a>
                 </li>
               </ul>
             </div>
@@ -56,28 +56,22 @@
         <div class="col-md-3 col-sm-4">
           <div class="footer-widget">
             <div class="footer-menu">
-              <h4 class="footer-widget-title">Our Company</h4>
+              <h4 class="footer-widget-title"></h4>
               <ul>
                 <li>
-                  <a href="#">About Us</a>
+                  <a href="#"</a>
                 </li>
                 <li>
-                  <a href="#">How It Works</a>
+                  <a href="#"></a>
                 </li>
                 <li>
-                  <a href="#">Affiliates</a>
+                  <a href="#"></a>
                 </li>
                 <li>
-                  <a href="#">Testimonials</a>
+                  <a href="#"></a>
                 </li>
                 <li>
-                  <a href="#">Contact Us</a>
-                </li>
-                <li>
-                  <a href="#">Plan &amp; Pricing</a>
-                </li>
-                <li>
-                  <a href="#">Blog</a>
+                  <a href="#"></a>
                 </li>
               </ul>
             </div>
@@ -105,13 +99,7 @@
                   <a href="#">Refund Policy</a>
                 </li>
                 <li>
-                  <a href="#">FAQs</a>
-                </li>
-                <li>
-                  <a href="#">Buyers Faq</a>
-                </li>
-                <li>
-                  <a href="#">Sellers Faq</a>
+                  <a href="{{ url('faq-page') }}">FAQs</a>
                 </li>
               </ul>
             </div>
@@ -133,9 +121,8 @@
       <div class="row">
         <div class="col-md-12">
           <div class="copyright-text">
-            <p>© 2018
-              <a href="#">DigiPro</a>. All rights reserved. Created by
-              <a href="#">AazzTech</a>
+            <p>© <?php echo date("Y"); ?>
+              <a href="#">SaveDchange</a>. All rights reserved.
             </p>
           </div>
         </div>
