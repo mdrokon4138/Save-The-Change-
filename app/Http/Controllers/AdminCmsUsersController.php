@@ -8,6 +8,11 @@ use crocodicstudio\crudbooster\controllers\CBController;
 
 class AdminCmsUsersController extends CBController {
 
+	public function __construct()
+    {
+        $this->middleware('guest', ['except' => 'logout']);
+    }
+
 
 	public function cbInit() {
 		# START CONFIGURATION DO NOT REMOVE THIS LINE

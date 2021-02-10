@@ -27,10 +27,6 @@
     <input type="text" name="code" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
     <small id="emailHelp" class="form-text text-muted">Codes from your generated codes. </small>
   </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Receiver User Secret Code </label>
-    <input type="text" name="secret" class="form-control" id="exampleInputPassword1" placeholder="">
-  </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 </div>

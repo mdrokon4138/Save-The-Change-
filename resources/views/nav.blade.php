@@ -7,22 +7,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
-               
+                @if (Session::get('admin_name'))
+
+                @else 
                 <li class="nav-item active">
                     <a class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Register</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Components</a>
+                    
+                @endif
+                
+                <li class="nav-item {{$about}}">
+                    <a class="nav-link" href="{{ url('about-us') }}"><i class="far fa-clone"></i>About Us </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Calendar</a>
+                <li class="nav-item {{$contact}}">
+                    <a class="nav-link" href="{{ url('contact-us') }}"><i class="far fa-calendar-alt"></i>Contact Us</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-copy"></i>Documents</a>
-                </li>
+               
             </ul>
         </div>
     </nav>

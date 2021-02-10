@@ -34,19 +34,19 @@
 	</head>
 	<body>
 		
-		<div class="home-area parallax" style="background-image: url('{{ asset('assets/images/960x0.jpg') }}');">
+		<div class="home-area parallax" style="background-image: url('{{ asset('/images/'.$web->banner)  }}'); width: 100%;">
 			<div class="container">
 			
 				<div class="top-bar">
 					<div class="row">
 						<div class="col-md-6 col-sm-6 mobile-center">
 							<div class="logo">
-								<a href="#"><img src="{{ asset('assets/images/logo.png')  }}" alt="logo" /></a>
+								<a href="#"><img src="{{ asset('/images/'.$web->logo)  }}" style="height: 100px;" alt="logo" /></a>
 							</div>
 						</div>
 						<div class="col-md-6 col-sm-6 text-right mobile-center">
-							<a href="#" class="button red">Support <img src="{{ asset('assets/images/support.png') }}" alt="" /> </a>
 							<a href="{{ url('/admin/login') }}" class="button blue">Login </a>
+							<a href="{{ url('register-now') }}" class="button orange">Get Started Now!</a>
 						
 						</div>
 						
@@ -60,10 +60,6 @@
 						<div class="col-md-6 text-center">
 							<div class="home-right">
 								
-								<ul>
-									<li><a href="#" class="button orange more-feature">Package List</a></li>
-									<li><a href="{{ url('register-now') }}" class="button blue">Get Started Now!</a></li>
-								</ul>
 							</div>
 						</div>
 					</div>
@@ -301,8 +297,6 @@
 			</div>
 		</div>
 		
-		
-		
 		<div class="contact-info-area parallax">
 			<div class="container">
 				<div class="row text-center">
@@ -324,7 +318,7 @@
 		</div>
 		
 		<div class="footer-bar">
-			@include('footer')
+		@include('footer')
 		</div>
 		
 		<!-- Bootstrap core JavaScript

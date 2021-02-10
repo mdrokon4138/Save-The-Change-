@@ -10,17 +10,56 @@ class HomeController extends Controller
 {
     public function index(Request $request){
         $plans = DB::table('plans')->get();
-        // dd($plans);
+        $web= DB::table('settings')->first();
+        // dd($settings);
+        $home = 'active';
 
-        return view('welcome', compact('plans'));
+        return view('welcome', compact('plans','active', 'web'));
+    }
+    
+    public function about_us(Request $request){
+        $page = DB::table('abouts')->first();
+        $web= DB::table('settings')->first();
+        // dd($plans);
+         $about = 'active';
+       
+        return view('about_us', compact('page', 'about', 'web'));
+    }
+    
+    public function terms(Request $request){
+        $page = DB::table('terms')->first();
+        $web= DB::table('settings')->first();
+        // dd($plans);
+         $about = 'active';
+       
+        return view('about_us', compact('page', 'about', 'web'));
+    }
+    
+    
+    public function refund(Request $request){
+        $page = DB::table('refunds')->first();
+        $web= DB::table('settings')->first();
+        // dd($plans);
+         $about = 'active';
+       
+        return view('about_us', compact('page', 'about', 'web'));
+    }
+    
+    public function contact_us(Request $request){
+        $contact = 'active';
+        // dd($active);
+        
+
+        return view('contact', compact('contact'));
     }
     
    
     public function active_account(Request $request){
+        $web= DB::table('settings')->first();
         $plans = DB::table('plans')->get();
         // dd($plans);
 
-        return view('stripe', compact('plans'));
+        return view('stripe', compact('plans', 'web'));
     }
     
     

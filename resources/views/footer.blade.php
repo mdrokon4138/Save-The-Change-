@@ -8,16 +8,15 @@
         <div class="col-md-3 col-sm-12">
           <div class="footer-widget">
             <div class="widget-about">
-              <img src="http://placehold.it/250x80" alt="" class="img-fluid">
-              <p>Что если тут написать другой текст на русском языке, для проверки шрифта Rubik )</p>
+              <img src="{{ asset('/images/'. $web->logo)}}" style="height: 80px;" alt="" class="img-fluid">
               <ul class="contact-details">
                 <li>
                   <span class="icon-earphones"></span> Call Us:
-                  <a href="tel:344-755-111">344-755-111</a>
+                  <a href="tel:{{ $web->phone }}">{{ $web->phone }}</a>
                 </li>
                 <li>
                   <span class="icon-envelope-open"></span>
-                  <a href="mailto:support@aazztech.com">support@aazztech.com</a>
+                  <a href="mailto:{{ $web->email }}">{{ $web->email }}</a>
                 </li>
               </ul>
             </div>
@@ -87,16 +86,13 @@
               <h4 class="footer-widget-title">Help Support</h4>
               <ul>
                 <li>
-                  <a href="#">Support Forum</a>
+                  <a href="{{ url('contact-us')}}">Contact Us </a>
                 </li>
                 <li>
-                  <a href="#">Terms &amp; Conditions</a>
+                  <a href="{{ url('terms-condition')}}">Terms &amp; Conditions</a>
                 </li>
                 <li>
-                  <a href="#">Support Policy</a>
-                </li>
-                <li>
-                  <a href="#">Refund Policy</a>
+                  <a href="{{ url('refund-policy')}}">Refund Policy</a>
                 </li>
                 <li>
                   <a href="{{ url('faq-page') }}">FAQs</a>

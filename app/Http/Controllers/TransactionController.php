@@ -76,8 +76,7 @@ class TransactionController extends Controller
         // dd($request);
 
         $this->validate($request,[
-         'code'=>'required',
-         'secret'=>'required'
+         'code'=>'required'
         ]);
         $code_used = DB::table('user_changes')->where('code', $request->code)->first();
 
@@ -85,50 +84,70 @@ class TransactionController extends Controller
             # code...
             return back()->with('warning', 'Code Already used. Try another code.');
         }
-
-        $exist = DB::table('user_info')->where('secret_code', $request->secret)->first();
         $amount = DB::table('codes')->where('codes', $request->code)->first();
        
-        if($exist && $amount){
+        if($amount){
                 
-             $prev_balance = DB::table('main_balances')->where('user_id', $exist->user_id)->first();
+                // $prev_balance = DB::table('main_balances')->where('user_id', CRUDBooster::myId())->first();
                 $user_balance = DB::table('main_balances')->where('user_id', CRUDBooster::myId())->first();
 
-                $update = $prev_balance->balance + $amount->amount;
+                
 
-                $minus = $user_balance->balance - $amount->amount;
-                if ($user_balance->balance > $amount->amount) {
-                    DB::table('main_balances')->where('user_id', $exist->user_id)->update([
-                        'balance'=> $update
-                    ]);
+                $update = $user_balance->balance + $amount->amount;
+
+                if ($user_balance->balance > 0) {
                     
                     DB::table('main_balances')->where('user_id', CRUDBooster::myId())->update([
-                        'balance'=> $minus
-                    ]);
-                    
-                    DB::table('codes')->where('codes',$request->code)->update([
-                        'status'=> 0
-                    ]);
-                    
-                    DB::table('transactions')->insert([
-                        'amount'=> $amount->amount,
-                        'sender_id'=> CRUDBooster::myId(),
-                        'receiver_id'=> $exist->user_id,
-                        'updated_at'=> \Carbon\Carbon::now(),
-                    ]);
-                    
-                    DB::table('user_changes')->insert([
-                        'code'=> $request->code,
-                        'updated_at'=> \Carbon\Carbon::now(),
+                        'balance'=> $update
                     ]);
 
-                    return back()->with('status', 'Fund transfer successfull.');
+                    DB::table('codes')->where('codes', $request->code)->update(['status' => 0]);
+                    
+                    return back()->with('status', 'Fund added successfull.');
                 }else {
-                    return back()->with('warning', 'You don\'t have sufficient balance');
+                    DB::table('main_balances')
+                    ->insert([
+                        'balance'=> $update,
+                        'user_id' => CRUDBooster::myId(),
+                        'created_at' => \Carbon\Carbon::now()
+
+                    ]);
+                    DB::table('codes')->where('codes', $request->code)->update(['status' => 0]);
+                    return back()->with('status', 'Fund added successfull.');
                 }
                 
         }else {
-            return back()->with('warning', 'Receiver User  or Code does not exist.');
+            return back()->with('warning', 'Code does not exist.');
         }
+    }
+
+    public function emergency(Request $request){
+        $percentage = DB::table('percentage')->first();
+        $balance = DB::table('main_balances')->where('user_id', CRUDBooster::myId())->first();
+        return view('emergency', compact('balance', 'percentage'));
+    }
+
+    public function reffer_user(Request $request){
+        $user = DB::table('user_info')->where('user_id', CRUDBooster::myId())->first();
+
+        $reffers = DB::table('referral_relationships')
+        ->join('cms_users', 'cms_users.id', '=', 'referral_relationships.user_id')
+        ->select('cms_users.name as uname', 'referral_relationships.*', 'cms_users.id')
+        ->where('referral_relationships.referral_link_id', $user->referral)
+        ->get();
+
+        return view('user.reffered_user', compact('reffers'));
+    }
+    public function all_reffer_user(Request $request){
+        $user = DB::table('user_info')->where('user_id', CRUDBooster::myId())->first();
+
+        $user_info = DB::table('referral_relationships')
+        ->select('referral_link_id', DB::raw('count(*) as total'))
+        ->groupBy('referral_relationships.referral_link_id')
+        ->get();
+
+        // dd($user_info);
+        
+        return view('user.all_reffered_user', compact('user_info'));
     }
 }

@@ -174,7 +174,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
         Unicodeveloper\Paystack\PaystackServiceProvider::class,
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
 
     ],
 
@@ -227,6 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
+        'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
 
     ],
 

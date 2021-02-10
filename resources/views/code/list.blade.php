@@ -108,7 +108,7 @@
         <th>{{ __('Amount') }}</th>
         <th>{{ __('Status') }}</th>
         <th>{{ __('Created At') }}</th>
-        <th class="text-center">{{ __('Actions') }}</th>
+        {{-- <th class="text-center">{{ __('Actions') }}</th> --}}
     </tr>
   </thead>
   <tbody>
@@ -134,14 +134,14 @@
             @endif 
             
             <td>{{ date("d F Y", strtotime($code->created_at)) }}</td>
-            <td class="text-center">
+            {{-- <td class="text-center">
                 @if($code->status == '1')
                 <a onclick="return confirm('Are you sure you want to inactive this item?');"  href="{{ url('/codes/inactive/' . $code->cid) }}"><i class="icon fa fa-undo text-danger"></i> {{ __('InActive') }}</a>
                 @else 
                 <a onclick="return confirm('Are you sure you want to active this item?');"  href="{{ url('/codes/active/' . $code->cid) }}"><i class="icon fa fa-check text-danger"></i> {{ __('Active') }}</a>
                 @endif 
                 
-            </td>
+            </td> --}}
         </tr>
         @endforeach
   </tbody>

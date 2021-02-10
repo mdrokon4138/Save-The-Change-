@@ -9,6 +9,11 @@ use CRUDBooster;
 
 class CodeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest', ['except' => 'logout']);
+    }
+    
     public function codes(Request $request){
         $codes =  DB::table('codes')
         ->join('plans', 'plans.id', '=', 'codes.plan_id')
@@ -159,7 +164,7 @@ class CodeController extends Controller
                     $user_exist = DB::table('user_info')->where('secret_code', $request->secret)->first();
                     $rec_user = DB::table('generated_codes')->where('user_id', $user_exist->user_id)->first();
 
-                    if ($user_exist && $user_exist->status == 1) {
+                    if ($user_exist) {
                         
                         $total_bal = $rec_user->code_balance + $exist->amount;
                         
@@ -193,7 +198,7 @@ class CodeController extends Controller
                         // dd();
 
                     }else{
-                        return back()->with('warning', 'User does not exist or not active..');
+                        return back()->with('warning', 'User does not exist..');
                     }
                     
                 }else{
@@ -314,12 +319,25 @@ class CodeController extends Controller
 
 
         for ($i = 0; $i < count($request->users); $i++) {
-            $old = DB::table('generated_codes')->where('user_id',$request->users[$i])->first();
+            $old = DB::table('refferal_bonus')->where('user_id',$request->users[$i])->first();
 
-                DB::table('generated_codes')->where('user_id',$request->users[$i])
-                ->update([
-                    'code_balance' => $request->bonus_amount + $old->code_balance,
-                ]);
+               if ($old) {
+                   # code...
+                    DB::table('refferal_bonus')->where('user_id',$request->users[$i])
+                    ->update([
+                        'bonus' => $request->bonus + $old->bonus,
+                    ]);
+               }else {
+                   # code...
+                    DB::table('refferal_bonus')
+                    ->insert([
+                        'bonus' => $request->bonus,
+                        'user_id'=> $request->users[$i],
+                        'used'=>0,
+                        'created_at'=> \Carbon\Carbon::today()
+
+                    ]);
+               }
             }
         return back()->with('msg', 'Bonus sent to users.');
     }
@@ -370,8 +388,9 @@ class CodeController extends Controller
 
     public function faq_page(Request $request){
         $page = DB::table('faqs')->first();
+        $web= DB::table('settings')->first();
 
-        return view('faq_add', compact('page'));
+        return view('faq_add', compact('page', 'web'));
     }
 
 

@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class MainBalance extends Model
 {
-    //
+    protected $table = '';
 }

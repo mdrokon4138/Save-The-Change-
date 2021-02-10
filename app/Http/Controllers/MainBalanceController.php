@@ -37,8 +37,30 @@ class MainBalanceController extends Controller
          'account_number'=>'required',
          'amount'=>'required',
         ]);
-        // dd($request);
-        \App\Withdraw::create($data + ['user_id' => CRUDBooster::myId()]);
-        return back()->with('msg', 'Your withdraw request is submited.');
+        $balance = DB::table('main_balances')->where('user_id', CRUDBooster::myId())->first();
+        $percentage = DB::table('percentage')->first();
+        $defualt_percent = $percentage->amount;
+        $default_providents = ($defualt_percent/100)*$request->amount;
+
+        // dd($default_providents);
+        
+        $data_balance = $request->amount + $default_providents;
+        $update = $balance->balance - $data_balance;
+
+        // dd($update);
+
+        if ($balance->balance >= $data_balance) {
+            \App\Withdraw::create($data + ['user_id' => CRUDBooster::myId()]);
+
+            $balance = DB::table('main_balances')->where('user_id', CRUDBooster::myId())->update([
+                'balance' => $update
+            ]);
+            return back()->with('msg', 'Your withdraw request is submited.');
+
+
+        }else {
+            return back()->with('warning', 'You dont have sufficient balance.');
+        }
+        
     }
 }

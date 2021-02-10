@@ -9,8 +9,16 @@ use CRUDBooster;
 class CustomRegisterController extends Controller
 {
     public function index(Request $request){
-        $previlage = DB::table('cms_privileges')->where('is_superadmin', 0)->get();
-        return view('auth.register', compact('previlage'));
+        $id = CRUDBooster::myId();
+        if ($id) {
+            # code...
+            return redirect('admin');
+        }else {
+            # code...
+            
+            $previlage = DB::table('cms_privileges')->where('is_superadmin', 0)->get();
+            return view('auth.register', compact('previlage'));
+        }
     }
    
    
@@ -99,23 +107,6 @@ class CustomRegisterController extends Controller
 
       $user_in = DB::table('user_info')->where('referral', $request->ref_code)->first();
       $user_active_check = DB::table('subscriptions')->where('deletion_status', 0)->where('user_id', $user_in->user_id)->first();
-      
-        // $gen_code = DB::table('generated_codes')->where('user_id',$user_in->user_id)->first();
-        // if($user_active_check && $gen_code){
-        //   $tot = $gen_code->code_balance + 500;
-        //     DB::table('generated_codes')->where('user_id',$user_in->user_id )->update(
-        //         [
-        //           'code_balance'=> $tot 
-        //         ]
-        //     );
-        // }else {
-        //     DB::table('generated_codes')->insert([
-        //         'user_id' => $user_in->user_id,
-        //         'code_balance' => 500,
-        //         'used_code' => '0',
-        //         'generated_code'=> '0'
-        //     ]);
-        // }
       
         return redirect('setup-account/'.$info);
     }
